@@ -8,25 +8,34 @@ import random, string, time, pypokedex, keyboard
 # bonus: créer des pokeballs avec des chances de captures, notamment les spécialdes en fonction du type de pokémon, et pourquoi pas du biome dans lequel on se trouve
 # double bonus: faire des combats avec les pokemon capturé histoire de pouvoir baisser les pdv et augmenter les chances de captures
 
-pokeball = [
+    
+myInventory = [
     {
         'name' : "pokeball",
-        'catchrate' : 30
+        'catchrate' : 30,
+        'count' : 20
 
     },
     {
         'name' : "superball",
-        'catchrate' : 50
+        'catchrate' : 50,
+        'count' : 10
         
     },
     {
         'name' : "hyperball",
-        'catchrate' : 70
+        'catchrate' : 70,
+        'count' : 5
         
     },
     {
         'name' : "masterball",
-        'catchrate' : 100
+        'catchrate' : 100,
+        'count' : 1  
+    },
+    {
+        'name' : "Pokedollars",
+        'Money' : 10,
         
     }
 ]
@@ -43,12 +52,16 @@ def lePokemonSpawn(name):
     while True:
             input1 = int(input())
             if  input1 == 1:
-                capture(name)
+                print("Pikachu ! Attaque Tonnerre !")
+                #attack()
                 break
             elif input1 == 2:
+                capture(name)
+                break
+            elif input1 == 3:
                 print("-----------------------------------")
                 print("                                  -")
-                print("          Vous avez fui !         -")
+                print("    Vous avez pris la fuite !  -")
                 print("                                  -")
                 print("-----------------------------------")
                 break
@@ -64,27 +77,32 @@ def capture(name):
         print("-----------------------------------")
 
         while True:
+            
             input3 = int(input())
+            myInventory[input3-1]['count'] -=1
             poke = Pokemon(1)
             a = random.randint(1, 100)
-            if input3 == 4:
+            if input3 == 4 :
                 print("-----------------------------------")
                 print("-                                 -")
                 print("-    Vous avez capturé",name,"!   -")
                 print("-                                 -")
                 print("-----------------------------------")
+                print(myInventory)
                 break
-            if (pokeball[input3-1]['catchrate']/(1+(poke.resistancerate/100))) >= a:
+            if (myInventory[input3-1]['catchrate']/(1+(poke.resistancerate/100))) >= a:
                 print("-----------------------------------")
                 print("-                                 -")
                 print("-    Vous avez capturé",name,"!   -")
                 print("-                                 -")
                 print("-----------------------------------")
+                print(myInventory['count'])
                 break
             else:
                 print("Raté ! ")
+                print(myInventory)
                 capture(name)
-            
+                
             
 class Pokemon():
     max = 0
