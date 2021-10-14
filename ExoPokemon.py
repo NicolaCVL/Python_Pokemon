@@ -1,13 +1,7 @@
 import random, string, time, pypokedex, keyboard
 
 # Different array for my Pokemon inventory and My Inventory
-myPokemonInventory = [
-    {
-        'name' : "Ouisticram",
-        'Attack' : 35,
-        'Defense' : 20
-    }
-]
+myPokemonInventory = [{'name' : "ouisticram",'Attack' : 35,'Defense' : 20, 'CapacitéSpé' : "Flamméche"}]
 
 myBackPackInventory = [
     {
@@ -39,12 +33,14 @@ myBackPackInventory = [
         'Money' : 10000,
     }
 ]
+
+# Different print methods
 def mainMenuPrint():
     print("----------------------------------------")
     print("                                        ")
     print("  Bienvenue dans le monde des Pokemons !")
     print("                                        ")
-    print("        1- My Pokemon  2- Mon Sac       ")
+    print("        1- Mes Pokemons  2- Mon Sac     ")
     print("                                        ")
     print("        3- Combattre     4-  Exit       ")
     print("                                        ")
@@ -55,7 +51,7 @@ def pokemonSpawnPrint(name):
     print("    Un ",name," sauvage est apparu !    ")
     print("                                        ")
     print("    1- Attaquer  2- Capturer            ")
-    print("    3- Pokeshop      4-  Fuir           ")
+    print("    3- Pokeshop  4-  Fuir               ")
     print("----------------------------------------")
 def shopPrint():
     print("-----------------------------------")
@@ -75,13 +71,32 @@ def choixPokeballPrint():
     print("-   3- Hyperball   4- Masterball  -")
     print("-                                 -")
     print("-----------------------------------")
-def captureReussiePrint(name):
+def successfullCatchPrint(name):
     print("-----------------------------------")
     print("-                                 -")
     print("-    Vous avez capturé",name,"!   -")
     print("-                                 -")
     print("-----------------------------------")
+def welcomePokeShop():
+    print("-----------------------------------")
+    print("                                  -")
+    print("    Bienvenue dans le PokeShop !  -")
+    print("                                  -")
+    print("-----------------------------------")
+def combatPrint():
+    print("-----------------------------------")
+    print("-                                 -")
+    print("- 1-",myPokemonInventory[0]["CapacitéSpé"], "2- Back -")
+    print("-                                 -")
+    print("-----------------------------------")
+def laFuite():
+    print("-----------------------------------")
+    print("                                  -")
+    print("    Vous avez pris la fuite !     -")
+    print("                                  -")
+    print("-----------------------------------")
 
+# Main Menu for my PokemonGame
 def mainMenu(name):
     mainMenuPrint()
     while True:
@@ -98,7 +113,7 @@ def mainMenu(name):
                 exit()
     mainMenu(name)
 
-
+# Method to Spawn a pokemon
 def lePokemonSpawn(name): 
     pokemonSpawnPrint(name)
     while True:
@@ -108,59 +123,54 @@ def lePokemonSpawn(name):
             elif input1 == 2:
                 capture(name)
             elif input1 == 3:
-                print("-----------------------------------")
-                print("                                  -")
-                print("    Bienvenue dans le PokeShop !  -")
-                print("                                  -")
-                print("-----------------------------------")
+                welcomePokeShop()
                 shop(name)
             elif input1 == 4:
-                print("-----------------------------------")
-                print("                                  -")
-                print("    Vous avez pris la fuite !     -")
-                print("                                  -")
-                print("-----------------------------------")
+                laFuite()
                 mainMenu(name)
 
+# Method for my pokemon combats
 def attack(name):
     poke = Pokemon(1)
     newPokemon = [
         {
             'name' : name,
             'Attack' : poke.pokemonAttack,
-            'Defense' : poke.pokemonDefense
+            'Defense' : poke.pokemonDefense,
+            'CapacitéSpé' : "Charge"
         }
     ]
-    pokemonAttack = myPokemonInventory[0]['Attack'] 
-    pokemonDefense = myPokemonInventory[0]['Defense']
-    newPokemonAttack = newPokemon[0]['Attack']
-    newPokemonDefense = newPokemon[0]['Defense']
-
+    ratio1 = int(myPokemonInventory[0]['Attack']/myPokemonInventory[0]['Defense'])
+    ratio2 = int(newPokemon[0]['Attack']/newPokemon[0]['Defense'])
+    max_number = ratio1 + ratio2 
+    winRate = int(random.randint(0, max_number))
+    moneyLoss = random.randint(1, 500)
+    moneyGain = random.randint(1, 2000)
+    
     while True:
-        print("-----------------------------------")
-        print("-                                 -")
-        print("-      1- Flammèche   2- Back     -")
-        print("-                                 -")
-        print("-----------------------------------")
+        combatPrint()
         input2 = int(input())
         if input2 == 1:
-            print(myPokemonInventory[0]['name'],"Attaque Flammèche !")
-            ratio1 = int(pokemonAttack/pokemonDefense)
-            ratio2 = int(newPokemonAttack/newPokemonDefense)
-            max_number = ratio1 + ratio2 
-            winRate = int(random.randint(0, max_number))
-        elif input2 == 2:
+            if winRate <= ratio1:
+                print(myPokemonInventory[0]['name'],"Attaque", myPokemonInventory[0]['CapacitéSpé'],"!")
+                print(myPokemonInventory[0]['name'], "a gagné le combat !")
+                print(newPokemon[0]['name'], "adverse est tombé KO !")
+                myBackPackInventory[4]['Money'] += moneyGain
+                print("Vous avez gagné", moneyGain, "pokedollars !")
+                mainMenu(name)
+            else:
+                print(myPokemonInventory[0]['name'], "est KO !")
+                myBackPackInventory[4]['Money'] -= moneyLoss
+                print("Vous avez perdu", moneyLoss, "pokedollars...")
+                mainMenu(name)
+        else:
             print(myPokemonInventory[0]['name'],"Reviens !")
             mainMenu(name)
-            # lePokemonSpawn(myPokemonInventory[0]['name'])
             
-
-
+# Capture method
 def capture(name):
     poke = Pokemon(1)
     print(myPokemonInventory)
-    print(poke.pokemonDefense)
-    print(poke.pokemonAttack)
     choixPokeballPrint()
     newPokemon = [
         {
@@ -173,24 +183,20 @@ def capture(name):
         input3 = int(input())
         myBackPackInventory[input3-1]['count'] -=1
         a = random.randint(1, 100)
-        myPokemonInventory.append(newPokemon[0])
         if myBackPackInventory[input3-1]['count'] >= 1:
             if input3 == 4:
                 captureReussiePrint(name)
-                newPokemon.append(poke)
-                print(newPokemon)
-                print(myPokemonInventory)
-                mainMenu(name)
+                myPokemonInventory.append(newPokemon[0])
+                lePokemonSpawn(name)
             elif (myBackPackInventory[input3-1]['catchrate']/(1+(poke.resistancerate/100))) >= a:
                 captureReussiePrint(name)
-                newPokemon.append(poke)
-                mainMenu(name)
+                myPokemonInventory.append(newPokemon[0])
+                lePokemonSpawn(name)
             else:
                 print("Raté ! ")
-                print(myBackPackInventory)
                 capture(name)
 
-    
+# Method for a pokeshop to buy pokeballs
 def shop(name):
     shopPrint()
     input2 = int(input())
@@ -204,9 +210,12 @@ def shop(name):
             lePokemonSpawn(name)
         else:
             print("Vous avez acheter ",quantity, myBackPackInventory[input2-1]['name'],"!")
+            myBackPackInventory[input2-1]['count'] += quantity
             print("Il vous reste ", myBackPackInventory[4]['Money'] - count)
+            myBackPackInventory[4]['Money'] -= count
             shop(name)
 
+# Class pokemon pokedex library
 class Pokemon():
     max = 0
     def __init__(self, id):
@@ -219,29 +228,27 @@ class Pokemon():
         self.startSpawn = self.__class__.max
         self.__class__.max += self.spawnrate
         self.endSpawn = self.__class__.max
-
     def __repr__(self):
         return self.pokemon.name
-
 if __name__ == "__main__" :
     sum = 0
     test = {}
     result = {}
-    for i in range (1, 10):
+    for i in range (1, 15):
         test[i] = Pokemon(i)
-        print(test[i].pokemon.name)
+        # print(test[i].pokemon.name)
         sum += test[i].spawnrate
         result[test[i].pokemon.name] = 0
     
-    for i in test:
-         print("le pokémon : ", test[i].pokemon.name, "  a une chance de spawn de : ", "{:.2f}".format(test[i].spawnrate/(test[i].max/10)), "%")
+    """for i in test:
+        print("le pokémon : ", test[i].pokemon.name, "  a une chance de spawn de : ", "{:.2f}".format(test[i].spawnrate/(test[i].max/10)), "%")"""
 
     for i in range(1):
         spawn = random.randint(1, test[1].max)
         for i in test:
             if spawn >= test[i].startSpawn and spawn < test[i].endSpawn:
                 # print("le pokemon est spawn: ", test[i].pokemon.name, "   et son taux de spawn est:  ", test[i].spawnrate, "%")
-                result[test[i].pokemon.name] += 1
+                result[test[i].pokemon.name] += 10
                 break
         for i in result:
             if result[i] != 0:
