@@ -1,5 +1,6 @@
 import random, string, time, pypokedex, keyboard
 
+# Different array for my Pokemon inventory and My Inventory
 myPokemonInventory = [
     {
         'name' : "Ouisticram",
@@ -8,27 +9,24 @@ myPokemonInventory = [
     }
 ]
 
-myInventory = [
+myBackPackInventory = [
     {
         'name' : "pokeball",
         'catchrate' : 30,
         'price' : 200,
         'count' : 20
-
     },
     {
         'name' : "superball",
         'catchrate' : 50,
         'price' : 600,
         'count' : 10
-        
     },
     {
         'name' : "hyperball",
         'catchrate' : 70,
         'price' : 1200,
         'count' : 5
-        
     },
     {
         'name' : "masterball",
@@ -39,11 +37,9 @@ myInventory = [
     {
         'name' : "Pokedollars",
         'Money' : 10000,
-        
     }
 ]
-
-def mainMenu(name):
+def mainMenuPrint():
     print("----------------------------------------")
     print("                                        ")
     print("  Bienvenue dans le monde des Pokemons !")
@@ -53,23 +49,7 @@ def mainMenu(name):
     print("        3- Combattre     4-  Exit       ")
     print("                                        ")
     print("----------------------------------------")
-    while True:
-            input1 = int(input())
-            if  input1 == 1:
-                print(myPokemonInventory)
-                break
-            elif input1 == 2:
-                print(myInventory)
-                break
-            elif input1 == 3:
-                lePokemonSpawn(name)
-            elif input1 == 4:
-                exit
-    mainMenu(name)
-
-
-def lePokemonSpawn(name): 
-    poke = Pokemon(i)
+def pokemonSpawnPrint(name):
     print("----------------------------------------")
     print("                                        ")
     print("    Un ",name," sauvage est apparu !    ")
@@ -77,15 +57,50 @@ def lePokemonSpawn(name):
     print("    1- Attaquer  2- Capturer            ")
     print("    3- Pokeshop      4-  Fuir           ")
     print("----------------------------------------")
-    
-    newPokemon = [
-    {
-        'name' : name,
-        'Attack' : poke.pokemonAttack,
-        'Defense' : poke.pokemonDefense
-    }
-]
+def shopPrint():
+    print("-----------------------------------")
+    print("-                                 -")
+    print("-         1- Pokeball : 200$      -")
+    print("-         2- Superball : 600$     -")
+    print("-         3- Hyperball : 1200$    -")
+    print("-         4- Masterball : 50.000$ -")
+    print("-         5- Back                 -")
+    print("-                                 -")
+    print("-----------------------------------")
+def choixPokeballPrint():
+    print("-----------------------------------")
+    print("-                                 -")
+    print("-   1- Pokeball    2- Superball   -")
+    print("-                                 -")
+    print("-   3- Hyperball   4- Masterball  -")
+    print("-                                 -")
+    print("-----------------------------------")
+def captureReussiePrint(name):
+    print("-----------------------------------")
+    print("-                                 -")
+    print("-    Vous avez capturé",name,"!   -")
+    print("-                                 -")
+    print("-----------------------------------")
 
+def mainMenu(name):
+    mainMenuPrint()
+    while True:
+            input1 = int(input())
+            if  input1 == 1:
+                print(myPokemonInventory)
+                break
+            elif input1 == 2:
+                print(myBackPackInventory)
+                break
+            elif input1 == 3:
+                lePokemonSpawn(name)
+            elif input1 == 4:
+                exit()
+    mainMenu(name)
+
+
+def lePokemonSpawn(name): 
+    pokemonSpawnPrint(name)
     while True:
             input1 = int(input())
             if  input1 == 1:
@@ -105,155 +120,92 @@ def lePokemonSpawn(name):
                 print("    Vous avez pris la fuite !     -")
                 print("                                  -")
                 print("-----------------------------------")
-                break
+                mainMenu(name)
 
 def attack(name):
+    poke = Pokemon(1)
+    newPokemon = [
+        {
+            'name' : name,
+            'Attack' : poke.pokemonAttack,
+            'Defense' : poke.pokemonDefense
+        }
+    ]
     pokemonAttack = myPokemonInventory[0]['Attack'] 
     pokemonDefense = myPokemonInventory[0]['Defense']
-    # newPokemonAttack = newPokemon[0]['Attack']
-    # newPokemonDefense = newPokemon[0]['Defense']
+    newPokemonAttack = newPokemon[0]['Attack']
+    newPokemonDefense = newPokemon[0]['Defense']
 
     while True:
-        poke = Pokemon(1)
-        poke.pokemonAttack
-        poke.pokemonDefense
         print("-----------------------------------")
         print("-                                 -")
-        print("-   1- Charge    2- Flammèche     -")
-        print("-                                 -")
-        print("-   3- Double-Pied   4- Back      -")
+        print("-      1- Flammèche   2- Back     -")
         print("-                                 -")
         print("-----------------------------------")
         input2 = int(input())
         if input2 == 1:
-            print(myPokemonInventory[0]['name'],"Attaque Charge !")
+            print(myPokemonInventory[0]['name'],"Attaque Flammèche !")
             ratio1 = int(pokemonAttack/pokemonDefense)
             ratio2 = int(newPokemonAttack/newPokemonDefense)
             max_number = ratio1 + ratio2 
             winRate = int(random.randint(0, max_number))
-
         elif input2 == 2:
-            print(myPokemonInventory[0]['name'],"Attaque Flammèche !")
-        elif input2 == 3:
-            print(myPokemonInventory[0]['name'],"Attaque Double-Pied !")
-        elif input2 == 4:
             print(myPokemonInventory[0]['name'],"Reviens !")
-            lePokemonSpawn(myPokemonInventory[0]['name'])
-            break
+            mainMenu(name)
+            # lePokemonSpawn(myPokemonInventory[0]['name'])
+            
 
 
 def capture(name):
-    
-    print("-----------------------------------")
-    print("-                                 -")
-    print("-   1- Pokeball    2- Superball   -")
-    print("-                                 -")
-    print("-   3- Hyperball   4- Masterball  -")
-    print("-                                 -")
-    print("-----------------------------------")
     poke = Pokemon(1)
+    print(myPokemonInventory)
+    print(poke.pokemonDefense)
+    print(poke.pokemonAttack)
+    choixPokeballPrint()
+    newPokemon = [
+        {
+            'name' : name,
+            'Attack' : poke.pokemonAttack,
+            'Defense' : poke.pokemonDefense
+        }
+    ]
     while True:
         input3 = int(input())
-        myInventory[input3-1]['count'] -=1
+        myBackPackInventory[input3-1]['count'] -=1
         a = random.randint(1, 100)
-        myPokemonInventory.append(poke)
-
-        if myInventory[input3-1]['count'] >= 1:
+        myPokemonInventory.append(newPokemon[0])
+        if myBackPackInventory[input3-1]['count'] >= 1:
             if input3 == 4:
-                print("-----------------------------------")
-                print("-                                 -")
-                print("-    Vous avez capturé",name,"!   -")
-                print("-                                 -")
-                print("-----------------------------------")
-                myPokemonInventory.append(poke)
+                captureReussiePrint(name)
+                newPokemon.append(poke)
+                print(newPokemon)
+                print(myPokemonInventory)
                 mainMenu(name)
-            elif (myInventory[input3-1]['catchrate']/(1+(poke.resistancerate/100))) >= a:
-                print("-----------------------------------")
-                print("-                                 -")
-                print("-    Vous avez capturé",name,"!   -")
-                print("-                                 -")
-                print("-----------------------------------")
-                myPokemonInventory.append(newPokemon)
+            elif (myBackPackInventory[input3-1]['catchrate']/(1+(poke.resistancerate/100))) >= a:
+                captureReussiePrint(name)
+                newPokemon.append(poke)
                 mainMenu(name)
             else:
                 print("Raté ! ")
-                print(myInventory)
+                print(myBackPackInventory)
                 capture(name)
-                
+
+    
 def shop(name):
-    count = 0
-    while True:
-        print("-----------------------------------")
-        print("-                                 -")
-        print("-         1- Pokeball : 200$      -")
-        print("-         2- Superball : 600$     -")
-        print("-         3- Hyperball : 1200$    -")
-        print("-         4- Masterball : 50.000$ -")
-        print("-         5- Back                 -")
-        print("-                                 -")
-        print("-----------------------------------")
-        input2 = int(input())
-# Modifier le while pour ne pas aller en Negatif !
-
-        while myInventory[4]['Money'] != 0:
-            if input2 == 5:
-                mainMenu(name)
-            if input2 == 1:
-
-                input3 = int(input(" T'en veux combien sale rat ? "))
-                count = input3*myInventory[input2-1]['price']
-                
-                myInventory[input2-1]['count'] += input3
-                myInventory[4]['Money'] -= count 
-                print("Vous avez acheter", input3,"pokeball !")
-                print("Il vous reste ", myInventory[4]['Money'])
-                break
-                
-            elif input2 == 2:
-
-                input3 = int(input(" T'en veux combien ? "))
-                count = input3*myInventory[input2-1]['price']
-                
-                myInventory[input2-1]['count'] += input3
-                myInventory[4]['Money'] -= count 
-
-                myInventory[input2-1]['count'] += input3
-                myInventory[4]['Money'] -= count
-                print("Vous avez acheter", input3, "superball ! ah bien !")
-                print("Il vous reste ", myInventory[4]['Money'])
-                break
-            elif input2 == 3:
-                input3 = int(input(" Bonjour Monsieur, Vous en voulez combien ? "))
-                count = input3*myInventory[input2-1]['price']
-                
-                myInventory[input2-1]['count'] += input3
-                myInventory[4]['Money'] -= count 
-
-                myInventory[input2-1]['count'] +=input3
-                myInventory[4]['Money'] -= count
-                print("Vous avez acheter", input3, "hyperball !")
-                print("Il vous reste ", myInventory[4]['Money'])
-                break
-
-            elif input2 == 4:
-
-                input3 = int(input(" Bonjour Monsieur, Vous en voulez combien ? "))
-                count = input3*myInventory[input2-1]['price']
-                
-                myInventory[input2-1]['count'] += input3
-                myInventory[4]['Money'] -= count 
-
-                myInventory[input2-1]['count'] += input3
-                myInventory[4]['Money'] -= count
-                print("Vous avez acheter", input3, "masterball ! waaah excusez moi MONSIEUR ! Vous avez de l'argent a ce que je vois !")
-                print("Il vous reste ", myInventory[4]['Money'])
-                break
+    shopPrint()
+    input2 = int(input())
+    if input2 == 5:
+        mainMenu(name)
+    else: 
+        quantity = int(input(" T'en veux combien ? "))
+        count = quantity*myBackPackInventory[input2-1]['price']
+        if count > myBackPackInventory[4]['Money']:
+            print("T'as pas d'argent MEC !")
+            lePokemonSpawn(name)
+        else:
+            print("Vous avez acheter ",quantity, myBackPackInventory[input2-1]['name'],"!")
+            print("Il vous reste ", myBackPackInventory[4]['Money'] - count)
             shop(name)
-
-            
-
-        
-
 
 class Pokemon():
     max = 0
@@ -295,7 +247,6 @@ if __name__ == "__main__" :
             if result[i] != 0:
                 #print("pokémon: ", i, "  quantité:  ", result[i], "pourcentage: ", "{:.2f}".format(result[i]/100))
                 mainMenu(i)
-                # lePokemonSpawn(i)
 
 
 
