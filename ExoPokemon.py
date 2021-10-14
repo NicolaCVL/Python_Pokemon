@@ -1,13 +1,5 @@
 import random, string, time, pypokedex, keyboard
 
-# 1 - créer une liste des pokémons, incluant une chance de spawn (0% - 100%) 
-# 2 - créer une méthode spwan, qui, en fonction de la chance de spawn, fait spawn un pokémon (affiche son nom)
-# 3 - faire spawn 10000 pokémons, calculer le % de chaque pokémon spawn
-# 4 - comparer le % de spawn avec la chance de spawn du pokémon. Afficher pour chaque pokémon spawn,
-# s'il y en a eu + ou - que la proba de spawn initiale
-# bonus: créer des pokeballs avec des chances de captures, notamment les spécialdes en fonction du type de pokémon, et pourquoi pas du biome dans lequel on se trouve
-# double bonus: faire des combats avec les pokemon capturé histoire de pouvoir baisser les pdv et augmenter les chances de captures
-
 myPokemonInventory = [
     {
         'name' : "Ouisticram",
