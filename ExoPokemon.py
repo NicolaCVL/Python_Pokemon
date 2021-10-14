@@ -34,7 +34,7 @@ myBackPackInventory = [
     }
 ]
 
-# Different print methods
+# Different print Function
 def mainMenuPrint():
     print("----------------------------------------")
     print("                                        ")
@@ -113,7 +113,7 @@ def mainMenu(name):
                 exit()
     mainMenu(name)
 
-# Method to Spawn a pokemon
+# Function to Spawn a pokemon
 def lePokemonSpawn(name): 
     pokemonSpawnPrint(name)
     while True:
@@ -129,7 +129,7 @@ def lePokemonSpawn(name):
                 laFuite()
                 mainMenu(name)
 
-# Method for my pokemon combats
+# Function for my pokemon combats
 def attack(name):
     poke = Pokemon(1)
     newPokemon = [
@@ -167,7 +167,7 @@ def attack(name):
             print(myPokemonInventory[0]['name'],"Reviens !")
             mainMenu(name)
             
-# Capture method
+# Capture Function
 def capture(name):
     poke = Pokemon(1)
     print(myPokemonInventory)
@@ -182,21 +182,21 @@ def capture(name):
     while True:
         input3 = int(input())
         myBackPackInventory[input3-1]['count'] -=1
-        a = random.randint(1, 100)
+        catchRatio = random.randint(1, 100)
         if myBackPackInventory[input3-1]['count'] >= 1:
             if input3 == 4:
-                captureReussiePrint(name)
+                successfullCatchPrint(name)
                 myPokemonInventory.append(newPokemon[0])
                 lePokemonSpawn(name)
-            elif (myBackPackInventory[input3-1]['catchrate']/(1+(poke.resistancerate/100))) >= a:
-                captureReussiePrint(name)
+            elif (myBackPackInventory[input3-1]['catchrate']/(1+(poke.resistancerate/100))) >= catchRatio:
+                successfullCatchPrint(name)
                 myPokemonInventory.append(newPokemon[0])
                 lePokemonSpawn(name)
             else:
                 print("Raté ! ")
                 capture(name)
 
-# Method for a pokeshop to buy pokeballs
+# Function for a pokeshop to buy pokeballs
 def shop(name):
     shopPrint()
     input2 = int(input())
@@ -206,7 +206,7 @@ def shop(name):
         quantity = int(input(" T'en veux combien ? "))
         count = quantity*myBackPackInventory[input2-1]['price']
         if count > myBackPackInventory[4]['Money']:
-            print("T'as pas d'argent MEC !")
+            print("T'as pas d'argent !")
             lePokemonSpawn(name)
         else:
             print("Vous avez acheter ",quantity, myBackPackInventory[input2-1]['name'],"!")
@@ -236,7 +236,6 @@ if __name__ == "__main__" :
     result = {}
     for i in range (1, 15):
         test[i] = Pokemon(i)
-        # print(test[i].pokemon.name)
         sum += test[i].spawnrate
         result[test[i].pokemon.name] = 0
     
@@ -248,7 +247,7 @@ if __name__ == "__main__" :
         for i in test:
             if spawn >= test[i].startSpawn and spawn < test[i].endSpawn:
                 # print("le pokemon est spawn: ", test[i].pokemon.name, "   et son taux de spawn est:  ", test[i].spawnrate, "%")
-                result[test[i].pokemon.name] += 10
+                result[test[i].pokemon.name] += 1
                 break
         for i in result:
             if result[i] != 0:
